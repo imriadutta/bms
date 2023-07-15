@@ -154,6 +154,9 @@ def create_group(request):
 
     if request.method == 'POST':
         name = request.POST.get('gname')
+        task = request.POST.get('task')
+        date = request.POST.get('date')
+        time = request.POST.get('time')
         if Group.objects.filter(name=name):
             messages.add_message(
                 request, messages.ERROR, 'Group name already exists!')
@@ -162,6 +165,9 @@ def create_group(request):
             group = Group.objects.create(
                 name=name,
                 admin=admin,
+                task=task,
+                deadline_date=date,
+                deadline_time=time,
             )
             group.save()
 
@@ -199,7 +205,10 @@ def show_groups(request):
             name=group.name,
             admin=group.admin,
             created_on=group.created_on,
-            modified_on=group.modified_on
+            modified_on=group.modified_on,
+            date=group.deadline_date,
+            task=group.task,
+            time=group.deadline_time,
         )
         eachgroup.members = Member.objects.filter(group=group)
         allgroups.append(eachgroup)
@@ -228,21 +237,26 @@ def group_delete(request, gname):
 def group_edit(request, gname):
     try:
         group = Group.objects.get(name=gname)
-        eachgroup = EachGroup(
-            name=group.name,
-            admin=group.admin,
-            created_on=group.created_on,
-            modified_on=group.modified_on
-        )
-        eachgroup.members = [
-            m.user for m in Member.objects.filter(group=group)
-        ]
     except Exception:
         messages.add_message(request, messages.ERROR, 'Group does not exist!')
         return redirect('/groups')
     else:
+        eachgroup = EachGroup(
+            name=group.name,
+            admin=group.admin,
+            created_on=group.created_on,
+            modified_on=group.modified_on,
+            task=group.task,
+            date=group.deadline_date,
+            time=group.deadline_time,
+        )
+        eachgroup.members = [
+            m.user for m in Member.objects.filter(group=group)
+        ]
         if request.method == 'POST':
             name = request.POST.get('gname')
+            task = request.POST.get('task')
+
             if Group.objects.filter(name=name).exclude(name=group.name):
                 messages.add_message(
                     request, messages.WARNING, 'Group name already exists!')
@@ -267,6 +281,8 @@ def group_edit(request, gname):
                             user=user,
                         )
                         member.save()
+
+                group.task = task
                 group.save()
 
                 messages.add_message(request, messages.SUCCESS,
@@ -327,7 +343,7 @@ def read_notification(request):
     if request.method == 'POST':
         user = User.objects.get(username=request.session.get('username'))
         notifications = Notification.objects.filter(receiver=user)
-        
+
         for notification in notifications:
             notification.is_read = True
             notification.save()

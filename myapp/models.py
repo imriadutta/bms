@@ -19,8 +19,8 @@ class Group(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
     task = models.CharField(null=True, max_length=500)
-    deadline_date = models.DateTimeField(null=True)
-    deadline_time = models.DateTimeField(null=True)
+    deadline_date = models.DateField(null=True)
+    deadline_time = models.TimeField(null=True)
 
 
 class Member(models.Model):

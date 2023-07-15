@@ -73,6 +73,20 @@
                         class="form-control" disabled>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Task</label>
+                    <input type="text" name="task" class="form-control" value="{{ group.task }}" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="DeadDate">Deadline Date</label>
+                    <input type="text" id="DateDate" class="form-control" disabled value="{{ group.deadline_date }}">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="DeadTime">Time</label>
+                    <input type="text" id="DateTime" class="form-control" disabled value="{{ group.deadline_time }}">
+                </div>
+            </div>
             <div class="form-group">
                 <label>Edit members</label>
                 {% for user in users %}
@@ -122,6 +136,20 @@
                     <label>Group admin</label>
                     <input type="text" value="{{ group.admin.fullname }} ({{ group.admin.username }})"
                         class="form-control" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Task</label>
+                    <input type="text" class="form-control" value="{{ group.task }}" disabled>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="DeadDate">Deadline Date</label>
+                    <input type="text" id="DateDate" class="form-control" disabled value="{{ group.deadline_date }}">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="DeadTime">Time</label>
+                    <input type="text" id="DateTime" class="form-control" disabled value="{{ group.deadline_time }}">
                 </div>
             </div>
             <div class="form-group">
