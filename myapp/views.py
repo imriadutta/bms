@@ -165,10 +165,10 @@ def create_group(request):
             group = Group.objects.create(
                 name=name,
                 admin=admin,
-                task=task,
-                deadline_date=date,
-                deadline_time=time,
+                task=task
             )
+            group.deadline.date=date
+            group.deadline.time=time
             group.save()
 
             member = Member.objects.create(
@@ -206,9 +206,9 @@ def show_groups(request):
             admin=group.admin,
             created_on=group.created_on,
             modified_on=group.modified_on,
-            date=group.deadline_date,
             task=group.task,
-            time=group.deadline_time,
+            date=group.deadline.date,
+            time=group.deadline.time,
         )
         eachgroup.members = Member.objects.filter(group=group)
         allgroups.append(eachgroup)
@@ -247,8 +247,8 @@ def group_edit(request, gname):
             created_on=group.created_on,
             modified_on=group.modified_on,
             task=group.task,
-            date=group.deadline_date,
-            time=group.deadline_time,
+            date=group.deadline.date,
+            time=group.deadline.time,
         )
         eachgroup.members = [
             m.user for m in Member.objects.filter(group=group)

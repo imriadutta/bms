@@ -26,7 +26,8 @@
 - HTML
 - CSS (Bootstrap)
 - JavaScript (AJAX, JQuery)
-- Python (Django)
+- REST API
+- Python (Django, Django REST Framework, Celery)
 - MySQL
 
 ## Run Locally
